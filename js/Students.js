@@ -16,7 +16,7 @@ async function getdadt(content){
 
 try{
     let res = await axios.get("https://6923dd633ad095fb8471ce98.mockapi.io/Students") ;
-    content.innerHTML += "";
+    content.innerHTML = "";
 res.data.map((el) => { content.innerHTML += `
          <div data-slot="card"
                                                 class="max-w-[400px] w-full  text-card-foreground flex flex-col gap-6 rounded-xl border p-6 cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 group">
@@ -163,6 +163,7 @@ async function  addTeacher(params){
  try{
   await axios.post("https://6923dd633ad095fb8471ce98.mockapi.io/Students" ,params ,
  outerModal.classList.add("hidden"));
+ content.innerHTML += "";
   getdadt(Teachersda);
  }    catch(err){
     console.log(err );
@@ -196,6 +197,7 @@ fors.addEventListener("submit",function(e){
  async function delTechBtn(id) {
     try{ 
     await axios.delete(` https://6923dd633ad095fb8471ce98.mockapi.io/Students/${id}`) ;
+    content.innerHTML += "";
       getdadt(Teachersda);
     }catch(err){
          console.log(err);
