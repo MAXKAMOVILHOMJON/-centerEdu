@@ -16,7 +16,7 @@ async function getdadt(content){
 
 try{
     let res = await axios.get("https://6923dd633ad095fb8471ce98.mockapi.io/Teachers") ;
-    content.innerHTML += "";
+    content.innerHTML = "";
 res.data.map((el) => { content.innerHTML += `
         <div data-slot="card"
             class="text-card-foreground flex flex-col gap-6 rounded-xl border p-6 cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 group">
