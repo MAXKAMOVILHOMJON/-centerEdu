@@ -25,10 +25,10 @@ async function getdadt(content , page ){
 try{
     let res = await axios.get(`https://6923dd633ad095fb8471ce98.mockapi.io/Teachers?page=${page}&limit=6`) ;
     content.innerHTML = "";
-res.data.map((el) => { content.innerHTML += `<a href="./Teacher.html">
+res.data.map((el) => { content.innerHTML += `
         <div data-slot="card"
             class="text-card-foreground flex flex-col gap-6 rounded-xl border p-6 cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 group">
-                                                <div class="flex flex-col items-center text-center mb-4"><span
+                                                <a href="./Teacher.html"> <div class="flex flex-col items-center text-center mb-4"><span
                                                         data-slot="avatar"
                                                         class="relative flex size-10 shrink-0 overflow-hidden rounded-full h-20 w-20 mb-3 ring-4 ring-blue-100 dark:ring-blue-900"><img
                                                             data-slot="avatar-image" class="aspect-square size-full"
@@ -127,6 +127,7 @@ res.data.map((el) => { content.innerHTML += `<a href="./Teacher.html">
                                                         </svg><span class="truncate">${el.LinkedIn}</span>
                                                     </div>
                                                 </div>
+                                                </a>
                                                 <div 
                                                     class="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                                                     <button data-slot="button" onClick = "editTeacher(${el.id}) "
@@ -153,8 +154,9 @@ res.data.map((el) => { content.innerHTML += `<a href="./Teacher.html">
                                                             <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
                                                             <path d="M3 6h18"></path>
                                                             <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                                                        </svg>Delete</button></div>
-                                            </div> </a>
+                                                        </svg>Delete</button>
+                                                        </div>
+                                            </div> 
         ` ;
     })
     let resss = await axios.get("https://6923dd633ad095fb8471ce98.mockapi.io/Teachers") ;
