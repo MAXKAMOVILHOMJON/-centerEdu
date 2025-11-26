@@ -197,7 +197,7 @@ fors.addEventListener("submit",function(e){
  async function delTechBtn(id) {
     try{ 
     await axios.delete(` https://6923dd633ad095fb8471ce98.mockapi.io/Students/${id}`) ;
-    content.innerHTML += "";
+    
       getdadt(Teachersda);
     }catch(err){
          console.log(err);
