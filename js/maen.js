@@ -186,17 +186,17 @@ res.data.map((el) => { content.innerHTML += `
 getdadt(Teachersda , page)
 async function changePage(i) {
     let resss = await axios.get("https://6923dd633ad095fb8471ce98.mockapi.io/Teachers") ;
-    let pejis = Math.ceil(resss.data.length/6) 
+    let pejis = Math.ceil(resss.data.length/6) ;
     
     esc.hidden = true;
     if (i > 0 && i <= pejis) {
         getdadt(Teachersda, i);
     } else {
-        esc.hidden = false;   
+        esc.hidden = false;
     }
     setTimeout(() => {
-        esc.hidden = true; 
-    }, 50000); 
+        esc.hidden = true;
+    }, 50000);
   }
   
 
