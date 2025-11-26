@@ -25,7 +25,7 @@ async function getdadt(content , page ){
 try{
     let res = await axios.get(`https://6923dd633ad095fb8471ce98.mockapi.io/Teachers?page=${page}&limit=6`) ;
     content.innerHTML = "";
-res.data.map((el) => { content.innerHTML += `
+res.data.map((el) => { content.innerHTML += `<a href="./Teacher.html">
         <div data-slot="card"
             class="text-card-foreground flex flex-col gap-6 rounded-xl border p-6 cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 group">
                                                 <div class="flex flex-col items-center text-center mb-4"><span
@@ -154,7 +154,7 @@ res.data.map((el) => { content.innerHTML += `
                                                             <path d="M3 6h18"></path>
                                                             <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
                                                         </svg>Delete</button></div>
-                                            </div>
+                                            </div> </a>
         ` ;
     })
     let resss = await axios.get("https://6923dd633ad095fb8471ce98.mockapi.io/Teachers") ;
