@@ -2,25 +2,34 @@ let Teachersda = document.getElementById("addStudents") ;
 let fors =document.getElementById("forms") ;
 let outerModal = document.getElementById("outer-modal") ;
 let addTeacgerBtn  =  document.getElementById("addteacgerbtn") ;
+let selected = null;
+let pagin = document.getElementById("pagin");
+let page = 1;
+let esc =  document.getElementById("tugadi");
 
 addTeacgerBtn.addEventListener("click" , function(){
     outerModal.classList.remove("hidden")
+    for (let el of fors) {
+        el.value = "";
+    
+}
 })
 outerModal.addEventListener("click" , function(){
     outerModal.classList.add("hidden")
+    selected = null
 })
 fors.addEventListener("click" , function(i){
     i.stopPropagation()
 })
-async function getdadt(content){
+async function getdadt(content , page){
 
 try{
-    let res = await axios.get("https://6923dd633ad095fb8471ce98.mockapi.io/Students") ;
+    let res = await axios.get(`https://6923dd633ad095fb8471ce98.mockapi.io/Students?page=${page}&limit=8`) ;
     content.innerHTML = "";
 res.data.map((el) => { content.innerHTML += `
-         <div data-slot="card"
-                                                class="max-w-[400px] w-full  text-card-foreground flex flex-col gap-6 rounded-xl border p-6 cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 group">
-                                                <div class="flex flex-col items-center text-center mb-4"><span
+        <div data-slot="card" class="max-w-[400px] w-full  text-card-foreground flex flex-col gap-6 rounded-xl border p-6 cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 group">
+                                                <div class="flex flex-col items-center text-center mb-4"><a href="./Student.html?StudeId=${el.id}">
+                                                <span
                                                         data-slot="avatar"
                                                         class="relative flex size-10 shrink-0 overflow-hidden rounded-full h-20 w-20 mb-3 ring-4 ring-purple-100 dark:ring-purple-900"><img
                                                             data-slot="avatar-image" class="aspect-square size-full"
@@ -31,6 +40,7 @@ res.data.map((el) => { content.innerHTML += `
                                                             class="inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&amp;>svg]:size-3 gap-1 [&amp;>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden [a&amp;]:hover:bg-accent [a&amp;]:hover:text-accent-foreground border-blue-500 text-blue-600 dark:text-blue-400">${el.group}</span><span
                                                             class="text-gray-600 dark:text-gray-400">14y</span></div>
                                                     <div class="w-full space-y-2 mb-3">
+                                                </a>
                                                         <div class="flex items-center justify-between">
                                                             <div class="flex items-center gap-1"><svg
                                                                     xmlns="http://www.w3.org/2000/svg" width="24"
@@ -60,9 +70,9 @@ res.data.map((el) => { content.innerHTML += `
                                                                     class="text-sm text-gray-900 dark:text-white">${el.Coins}</span>
                                                             </div>
                                                         </div>
-                                                         <div class="w-2/4 h-4 mx-4 bg-neutral-quaternary rounded-base">
-                                                          <div class="h-4 bg-warning rounded-base" style="width: 70%"></div>
-                                                             </div>
+                                                        <div class="w-2/4 h-4 mx-4 bg-red-800 rounded-base">
+                                                        <div class="h-4 bg-warning rounded-base" style="width: 90%"></div>
+                                                            </div>
                                                     </div>
                                                 </div>
                                                 <div class="space-y-2 mb-4">
@@ -122,7 +132,7 @@ res.data.map((el) => { content.innerHTML += `
                                                 </div>
                                                 <div
                                                     class="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                                                    <button data-slot="button"
+                                                    <button data-slot="button" onClick = "editTeacher(${el.id})"
                                                         class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background text-foreground hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md px-3 has-[>svg]:px-2.5 flex-1 gap-2"><svg
                                                             xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                             viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -150,34 +160,75 @@ res.data.map((el) => { content.innerHTML += `
                                             </div>
         ` ;
     })
+    let resss = await axios.get("https://6923dd633ad095fb8471ce98.mockapi.io/Students") ;
+    let pejis = Math.ceil(resss.data.length/8) 
+    pagin.innerHTML = ``
+    pagin.innerHTML += `<button type="button" onClick=changePage(${page-1})  class="inline-flex items-center justify-center text-body bg-neutral-primary-soft border border-default hover:bg-neutral-secondary-medium hover:text-heading focus:ring-3 focus:ring-neutral-tertiary-soft font-medium leading-5 rounded-s-base text-sm w-9 h-9 focus:outline-none rounded-l-lg">
+                     <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 19-7-7 7-7"/></svg>
+                            </button> `;
+      for (let i = 1;i <=pejis;i++) {
+         pagin.innerHTML +=`<button  onClick=changePage(${i}) type="button" class="inline-flex items-center justify-center text-body bg-neutral-primary-soft border border-default hover:bg-neutral-secondary-medium hover:text-heading focus:ring-3 focus:ring-neutral-tertiary-soft font-medium leading-5 text-sm w-9 h-9 focus:outline-none">${i}</button> `
+      };
+        pagin.innerHTML +=`   <button type="button" onClick=changePage(${page+1})  class="inline-flex items-center justify-center text-body bg-neutral-primary-soft border border-default hover:bg-neutral-secondary-medium hover:text-heading focus:ring-3 focus:ring-neutral-tertiary-soft font-medium leading-5 rounded-e-base text-sm w-9 h-9 focus:outline-none rounded-r-lg">
+                                                    <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" 
+                                                    viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" 
+                                                    stroke-width="2" d="m9 5 7 7-7 7"/></svg>
+                                                        </button> `;
+    
+     pejis
     
 }catch(err){
     console.log(err);
     
 }
 }
- getdadt(Teachersda)
-
-
+getdadt(Teachersda , page)
+async function changePage(i) {
+    let resss = await axios.get("https://6923dd633ad095fb8471ce98.mockapi.io/Students") ;
+    let pejis = Math.ceil(resss.data.length/8) ;
+    
+    esc.hidden = true;
+    if (i > 0 && i <= pejis) {
+        getdadt(Teachersda, i);
+    } else {
+        esc.hidden = false;
+    }
+    setTimeout(() => {
+        esc.hidden = true;
+    }, 50000);
+}
 async function  addTeacher(params){
- try{
-  await axios.post("https://6923dd633ad095fb8471ce98.mockapi.io/Students" ,params ,
- outerModal.classList.add("hidden"));
- content.innerHTML += "";
-  getdadt(Teachersda);
- }    catch(err){
+    try{
+    if(selected){
+    await axios.put(`https://6923dd633ad095fb8471ce98.mockapi.io/Students/${selected}` ,params ,
+        );selected = null
+        
+    }else{
+    await axios.post("https://6923dd633ad095fb8471ce98.mockapi.io/Students" ,params ,
+        );
+        
+    }
+    
+    outerModal.classList.add("hidden")
+    selected = null
+    
+    
+    
+    getdadt(Teachersda , page);
+    }    catch(err){
     console.log(err );
     
-  };
+    };
 
 };
 
 fors.addEventListener("submit",function(e){
     e.preventDefault();
     let TeachersObj = {}
-   
+
     TeachersObj.name = fors[0].value;
-    TeachersObj.age = fors[1].value;
+    TeachersObj.age =  fors[1].value;
     TeachersObj.group = fors[2].value;
     TeachersObj.Phone = fors[3].value;
     TeachersObj.Email = fors[4].value;
@@ -187,21 +238,51 @@ fors.addEventListener("submit",function(e){
     TeachersObj.Rating = fors[8].value;
     TeachersObj.avatar = fors[9].value;
     TeachersObj.Gender = fors[10].value;
-   
-    console.log(TeachersObj );
-     addTeacher(TeachersObj )
-    
-    
-} )
 
- async function delTechBtn(id) {
-    try{ 
-    await axios.delete(` https://6923dd633ad095fb8471ce98.mockapi.io/Students/${id}`) ;
+    addTeacher(TeachersObj )
+    console.log(TeachersObj);
     
-      getdadt(Teachersda);
+} );
+
+
+
+
+
+
+async function delTechBtn(id) {
+    console.log(id);
+    
+    
+    try{
+    await axios.delete(`https://6923dd633ad095fb8471ce98.mockapi.io/Students/${id}`) ;
+    
+    getdadt(Teachersda ,page);
     }catch(err){
-         console.log(err);
+        console.log(err);
         
-     }
+    }
 
- }
+}
+async function editTeacher(id) {
+    outerModal.classList.remove("hidden");
+    selected = id
+try{
+    let editTe =  await axios.get(` https://6923dd633ad095fb8471ce98.mockapi.io/Students/${id}`) ;
+    
+fors[0].value = editTe.data.name
+fors[1].value = editTe.data.age
+fors[2].value = editTe.data.group
+fors[3].value = editTe.data.Phone
+fors[4].value = editTe.data.Email
+fors[5].value = editTe.data.Telegram
+fors[6].value = editTe.data.LinkedIn
+fors[7].value = editTe.data.Coins
+fors[8].value = editTe.data.Rating
+fors[9].value = editTe.data.avatar
+fors[10].value = editTe.data.Gender
+}catch(err){
+    console.log(err);
+    
+}
+
+}

@@ -3,6 +3,7 @@ let id = path.get("teacherId")
 let studen = document.getElementById("studen")
 let son = document.getElementById("som")
 let information = document.getElementById("information")
+let tename = document.getElementById("tename")
 
 
 
@@ -11,6 +12,7 @@ async function getdadt( ){
   try{
       let res = await axios.get(`https://6923dd633ad095fb8471ce98.mockapi.io/Teachers/${id}`) ;
       console.log(res.data);
+      tename.innerHTML += res.data.name
       information.innerHTML += `
       <div data-slot="card-content" class="[&amp;:last-child]:pb-6 p-6">
                         <div class="flex flex-col items-center text-center"><span data-slot="avatar"
@@ -68,7 +70,7 @@ async function getdadt( ){
       son.innerHTML += ress.data.length
        ress.data.map((el) => {
         
-         studen.innerHTML += `
+         studen.innerHTML += `<a href="./Student.html?StudeId=${el.id}">
          <div
                                   class="flex items-center gap-4 p-4 rounded-lg bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer">
                                  <span data-slot="avatar"
@@ -88,7 +90,7 @@ async function getdadt( ){
                                        d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z">
                                     </path>
                                     </svg><span class="text-gray-900 dark:text-white">${el.Rating}</span></div>
-                              </div>
+                              </div></a>
          `
       })
       

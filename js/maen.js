@@ -5,11 +5,12 @@ let addTeacgerBtn  =  document.getElementById("addteacgerbtn") ;
 let selected = null
 let pagin = document.getElementById("pagin")
 let page = 1
- let esc =  document.getElementById("tugadi")
+let esc =  document.getElementById("tugadi")
+
 addTeacgerBtn.addEventListener("click" , function(){
     outerModal.classList.remove("hidden")
     for (let el of fors) {
-         el.value = "";
+    el.value = "";
         
     }
 })
@@ -23,7 +24,7 @@ fors.addEventListener("click" , function(i){
 async function getdadt(content , page ){
 
 try{
-    let res = await axios.get(`https://6923dd633ad095fb8471ce98.mockapi.io/Teachers?page=${page}&limit=6`) ;
+    let res = await axios.get(`https://6923dd633ad095fb8471ce98.mockapi.io/Teachers?page=${page}&limit=4`) ;
     content.innerHTML = "";
 res.data.map((el) => { content.innerHTML += `
         <div data-slot="card"
@@ -130,7 +131,7 @@ res.data.map((el) => { content.innerHTML += `
                                                 </a>
                                                 <div 
                                                     class="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                                                    <button data-slot="button" onClick = "editTeacher(${el.id}) "
+                                                    <button data-slot="button" onClick = "editTeacher(${el.id})"
                                                         class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background text-foreground hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-8 rounded-md px-3 has-[>svg]:px-2.5 flex-1 gap-2"><svg
                                                             xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                             viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -163,19 +164,19 @@ res.data.map((el) => { content.innerHTML += `
     let pejis = Math.ceil(resss.data.length/6) 
     pagin.innerHTML = ``
     pagin.innerHTML += `<button type="button" onClick=changePage(${page-1})  class="inline-flex items-center justify-center text-body bg-neutral-primary-soft border border-default hover:bg-neutral-secondary-medium hover:text-heading focus:ring-3 focus:ring-neutral-tertiary-soft font-medium leading-5 rounded-s-base text-sm w-9 h-9 focus:outline-none rounded-l-lg">
-                     <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 19-7-7 7-7"/></svg>
+                    <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 19-7-7 7-7"/></svg>
                             </button> `;
-      for (let i = 1;i <=pejis;i++) {
-         pagin.innerHTML +=`<button  onClick=changePage(${i}) type="button" class="inline-flex items-center justify-center text-body bg-neutral-primary-soft border border-default hover:bg-neutral-secondary-medium hover:text-heading focus:ring-3 focus:ring-neutral-tertiary-soft font-medium leading-5 text-sm w-9 h-9 focus:outline-none">${i}</button> `
-      };
+    for (let i = 1;i <=pejis;i++) {
+        pagin.innerHTML +=`<button  onClick=changePage(${i}) type="button" class="inline-flex items-center justify-center text-body bg-neutral-primary-soft border border-default hover:bg-neutral-secondary-medium hover:text-heading focus:ring-3 focus:ring-neutral-tertiary-soft font-medium leading-5 text-sm w-9 h-9 focus:outline-none">${i}</button> `
+    };
         pagin.innerHTML +=`   <button type="button" onClick=changePage(${page+1})  class="inline-flex items-center justify-center text-body bg-neutral-primary-soft border border-default hover:bg-neutral-secondary-medium hover:text-heading focus:ring-3 focus:ring-neutral-tertiary-soft font-medium leading-5 rounded-e-base text-sm w-9 h-9 focus:outline-none rounded-r-lg">
                                                     <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" 
                                                     viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" 
                                                     stroke-width="2" d="m9 5 7 7-7 7"/></svg>
                                                         </button> `;
     
-     pejis
+    pejis
 }catch(err){
     console.log(err);
     
@@ -197,38 +198,33 @@ async function changePage(i) {
     setTimeout(() => {
         esc.hidden = true;
     }, 50000);
-  }
-  
+}
+
 
 async function  addTeacher(params){
- try{
-  if(selected){
+try{
+if(selected){
     await axios.put(`https://6923dd633ad095fb8471ce98.mockapi.io/Teachers/${selected}` ,params ,
-       );
-        
-  }else{
+    );
+    
+}else{
     await axios.post("https://6923dd633ad095fb8471ce98.mockapi.io/Teachers" ,params ,
-       );
-        
-  }
-  
-  outerModal.classList.add("hidden")
-  selected = null
- 
- 
- 
- getdadt(Teachersda , page);
- }    catch(err){
+    );
+    
+}
+outerModal.classList.add("hidden")
+selected = null
+getdadt(Teachersda , page);
+}    catch(err){
     console.log(err );
     
-  };
+};
 
 };
 
 fors.addEventListener("submit",function(e){
     e.preventDefault();
     let TeachersObj = {}
-   
     TeachersObj.name = fors[0].value;
     TeachersObj.age =  fors[1].value;
     TeachersObj.Experience = fors[2].value;
@@ -246,7 +242,9 @@ fors.addEventListener("submit",function(e){
 } );
 
 async function delTechBtn(id) {
-    try{ 
+    console.log(id);
+    
+    try{
     await axios.delete(` https://6923dd633ad095fb8471ce98.mockapi.io/Teachers/${id}`) ;
     getdadt(Teachersda , page);
     }catch(err){
@@ -258,11 +256,11 @@ async function delTechBtn(id) {
 async function editTeacher(id) {
     outerModal.classList.remove("hidden");
     selected = id
-  try{
-     let editTe =  await axios.get(` https://6923dd633ad095fb8471ce98.mockapi.io/Teachers/${id}`) ;
+try{
+    let editTe =  await axios.get(` https://6923dd633ad095fb8471ce98.mockapi.io/Teachers/${id}`) ;
     console.log(editTe.data);
- fors[0].value = editTe.data.name
- fors[1].value = editTe.data.age
+fors[0].value = editTe.data.name
+fors[1].value = editTe.data.age
 fors[2].value = editTe.data.Experience
 fors[3].value = editTe.data.Phone
 fors[4].value = editTe.data.Email
@@ -272,10 +270,9 @@ fors[7].value = editTe.data.specialty
 fors[8].value = editTe.data.Rating
 fors[9].value = editTe.data.avatar
 fors[10].value = editTe.data.Gender
-  }catch(err){
+}catch(err){
     console.log(err);
     
-  }
+}
 
-} 
-
+}
