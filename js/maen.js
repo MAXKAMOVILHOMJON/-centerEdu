@@ -28,7 +28,7 @@ try{
 res.data.map((el) => { content.innerHTML += `
         <div data-slot="card"
             class="text-card-foreground flex flex-col gap-6 rounded-xl border p-6 cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 group">
-                                                <a href="./Teacher.html"> <div class="flex flex-col items-center text-center mb-4"><span
+                                                <a href="./Teacher.html?teacherId=${el.id}"> <div class="flex flex-col items-center text-center mb-4"><span
                                                         data-slot="avatar"
                                                         class="relative flex size-10 shrink-0 overflow-hidden rounded-full h-20 w-20 mb-3 ring-4 ring-blue-100 dark:ring-blue-900"><img
                                                             data-slot="avatar-image" class="aspect-square size-full"
