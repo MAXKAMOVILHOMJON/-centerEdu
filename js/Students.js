@@ -6,6 +6,23 @@ let selected = null;
 let pagin = document.getElementById("pagin");
 let page = 1;
 let esc =  document.getElementById("tugadi");
+let inputsoch = document.getElementById("inputsoch")
+let soetName =  document.getElementById("soetName")
+let  soetNameValue = "default"
+let searchValue = ""
+
+
+inputsoch.addEventListener("input" , function(e){
+    
+    searchValue= e.target.value
+   getdadt(Teachersda , page ,soetNameValue , searchValue );
+})
+soetName.addEventListener("click" , function(e){
+  console.log(e.target.value);
+  soetNameValue = e.target.value
+  getdadt(Teachersda , page ,soetNameValue , searchValue);
+})
+
 
 addTeacgerBtn.addEventListener("click" , function(){
     outerModal.classList.remove("hidden")
@@ -21,10 +38,10 @@ outerModal.addEventListener("click" , function(){
 fors.addEventListener("click" , function(i){
     i.stopPropagation()
 })
-async function getdadt(content , page){
+async function getdadt(content , page ,soetNameValue , searchValue){
 
 try{
-    let res = await axios.get(`https://6923dd633ad095fb8471ce98.mockapi.io/Students?page=${page}&limit=8`) ;
+    let res = await axios.get(`https://6923dd633ad095fb8471ce98.mockapi.io/Students?page=${page}&limit=8&${soetNameValue === "defaultd" ? "":`sortBy=name&order=${soetNameValue}`}&search=${searchValue}`) ;
     content.innerHTML = "";
 res.data.map((el) => { content.innerHTML += `
         <div data-slot="card" class="max-w-[400px] w-full  text-card-foreground flex flex-col gap-6 rounded-xl border p-6 cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 group">
@@ -183,7 +200,7 @@ res.data.map((el) => { content.innerHTML += `
     
 }
 }
-getdadt(Teachersda , page)
+getdadt(Teachersda , page ,soetNameValue , searchValue )
 async function changePage(i) {
     let resss = await axios.get("https://6923dd633ad095fb8471ce98.mockapi.io/Students") ;
     let pejis = Math.ceil(resss.data.length/8) ;
@@ -256,7 +273,7 @@ async function delTechBtn(id) {
     try{
     await axios.delete(`https://6923dd633ad095fb8471ce98.mockapi.io/Students/${id}`) ;
     
-    getdadt(Teachersda ,page);
+    getdadt(Teachersda ,page , soetNameValue , searchValue);
     }catch(err){
         console.log(err);
         
